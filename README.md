@@ -1,4 +1,5 @@
-# Quasar App (quasar-todo)
+# Quasar App (quasar-todo) 
+# Projeto basico para aplicar conceitos do VueJS com Quasar
 
 A Quasar Framework app
 
