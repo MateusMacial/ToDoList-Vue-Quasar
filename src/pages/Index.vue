@@ -24,6 +24,7 @@
 
 <script>
 import ToDoItem from '../components/ToDoItem.vue'
+import api from '../services/api.js'
 
 export default {
   components: { ToDoItem },
@@ -57,7 +58,12 @@ export default {
     deletar (index) {
       this.lista.splice(index, 1)
     }
-  }
+  },
+  mounted() {
+    api.get('/todo').then(response => {
+      console.log(response.data)
+    })
+  },
 }
 </script>
 
