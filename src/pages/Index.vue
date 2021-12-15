@@ -2,19 +2,21 @@
   <div>
     <h2 class="subtitle">Inserir Tarefa</h2>
     
-    <q-input outlined v-model.trim="tarefa.text" />
+    <q-input outlined v-model.trim="tarefa.descricao" />
 
     <q-btn color="primary" label="Add" @click="adicionarTarefa"/>
 
     <h2 class="subtitle">Lista de Afazeres</h2>
     <ToDoItem
       v-for="(item, index) in lista"
-
-      :tarefa="item.text"
-      :realizado="item.realizada"
+      
+      :id="item.id"
+      :tarefa="item.descricao"
+      :realizada="item.realizada"
       :index="index"
-      :key="item.text"
+      :key="item.descricao"
       :class="{ tarefaFeita: item.realizada }"
+
       @feito="feito"
       @deletar="deletar"
     >
@@ -33,7 +35,7 @@ export default {
     return {
       lista: [],
       tarefa: {
-        text: '',
+        descricao: '',
         realizada: false
       }
     }
@@ -41,29 +43,58 @@ export default {
   methods: {
     adicionarTarefa () {
       let tarefa = {
-        text: this.tarefa.text,
+        descricao: this.tarefa.descricao,
         realizada: false
       }
-      this.lista.push(tarefa)
-      this.tarefa.text = ''
+      api.post('/todo', tarefa).then(() => {
+          api.get('/todo').then(response => {
+          this.lista = response.data
+          this.tarefa.descricao = ''
+        })
+      }).catch((error) => {
+        var errors = error.response.data.errors
+        errors.forEach(x => {
+          alert("O campo " + x.fieldName + ": " + x.message)
+        });
+      })
     },
     feito (index) {
       var realizada = this.lista[index].realizada
       if (realizada === true) {
         this.lista[index].realizada = false
-      } else {
+      } 
+      else {
         this.lista[index].realizada = true
       }
+
+      var id = this.lista[index].id
+      var valorAtualizado = this.lista[index]
+      
+      api.put('/todo/' + id, valorAtualizado).then(() => {
+        api.get('/todo').then(response => {
+          this.lista = response.data
+        })
+      }).catch(() => {
+        this.lista[index].realizada = !this.lista[index].realizada
+      })
     },
     deletar (index) {
+      var id = this.lista[index].id
+
+      api.delete('/todo/' + id).then(() => {
+          api.get('/todo').then(response => {
+          this.lista = response.data
+        })
+      })
+      
       this.lista.splice(index, 1)
     }
   },
   mounted() {
     api.get('/todo').then(response => {
-      console.log(response.data)
+      this.lista = response.data
     })
-  },
+  }
 }
 </script>
 
