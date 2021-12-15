@@ -14,7 +14,7 @@
       :tarefa="item.descricao"
       :realizada="item.realizada"
       :index="index"
-      :key="item.descricao"
+      :key="item.id"
       :class="{ tarefaFeita: item.realizada }"
 
       @feito="feito"
@@ -53,13 +53,12 @@ export default {
         })
       }).catch((error) => {
         var errors = error.response.data.errors
-        errors.forEach(x => {
-          alert("O campo " + x.fieldName + ": " + x.message)
-        });
+        errors.forEach(x => alert(x.fieldName + ": " + x.message))
       })
     },
     feito (index) {
       var realizada = this.lista[index].realizada
+      
       if (realizada === true) {
         this.lista[index].realizada = false
       } 

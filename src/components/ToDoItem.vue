@@ -19,14 +19,20 @@
 export default {
   name: "ToDoItem",
   props: {
+    id: {type: Number},
     tarefa: { type: String },
-    realizado: { type: Boolean },
-    index: { type: Number },
+    realizada: { type: Boolean },
+    index: { type: Number }
   },
   data() {
     return {
-      val: this.realizado,
-    };
+      val: this.realizada,
+    }
   },
-};
+  watch: {
+    realizada(){
+      this.val = this.realizada
+    }
+  }
+}
 </script>
