@@ -1,5 +1,8 @@
 # Quasar App (quasar-todo) 
-# Projeto basico para aplicar conceitos do VueJS com Quasar
+# Projeto basico para aplicar conceitos do VueJS com Quasar.
+
+## Utiliza de BackEnd o projeto https://github.com/MateusMacial/ToDoSystem.
+## Projeto simples e de fim acadêmico.
 
 A Quasar Framework app
 
