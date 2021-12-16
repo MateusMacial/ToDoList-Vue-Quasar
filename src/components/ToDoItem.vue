@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       val: this.realizada,
+      teste: false
     }
   },
   watch: {
